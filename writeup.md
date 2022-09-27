@@ -15,9 +15,44 @@ IMG
 
  <img src=img/18.png class="center">
 
-Using the second input, we tried using it to get the source code of the "index.php" to understand the behaviour of the web application. 
 Looking at the code of "index.php", we find out that ther uspersafeWaf() function actually filters some statements like 'select' , 'order' .. 
+```
+<?php
+ini_set('display_errors', 'on');
 
+class TigerClass {
+    public function superSafeWAF($sql) {
+        $pdo = new SQLite3('../tiger.db', SQLITE3_OPEN_READONLY);
+        $safesql = implode (['select',  'union', 'order', 'by', 'from', 'group', 'insert'], '|');
+        $sql = preg_replace ('/' . $safesql . '/i', '', $sql);
+        $query = 'SELECT id, user FROM tigers WHERE id=' . $sql . ' LIMIT 1';
+        $tigers = $pdo->query($query);
+        $sol = $tigers->fetchArray(SQLITE3_ASSOC);
+        if ($sol) {
+            return $sol;
+        }
+        return false;
+        }
+    }
+
+if (isset($_POST['tiger_id']) && isset($_POST['submit'])) {
+    $tiger = new TigerClass ();
+    $tigerAccounts = $tiger->superSafeWAF($_POST['tiger_id']);
+
+}
+
+if (isset($_POST['name']) && isset($_POST['submit'])) {
+        //if(strpos($_POST['name'], "/") !== false){
+	//	die("You can't hackme hehe");
+	//}
+	$_POST['name'] = strtolower($_POST['name']);
+	echo file_get_contents($_POST['name']);
+	die();
+}
+
+
+?>
+```
  <img src=img/2.png class="center">
 
 We tried out some SQLi payloads to see that this was a blind boolean based sql injection , with an sqlite3 database.
