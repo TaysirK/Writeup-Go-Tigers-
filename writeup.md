@@ -44,16 +44,17 @@ Our payload was **1 AND CASE WHEN substr(user,1,1)='a' THEN 1 ELSE load_extensio
 Since the username having an id 1 was 'admin' we didn't get an error and the data corresponding was displayed. 
 Our final payload was **1 AND CASE WHEN substr(pass,1,1)='a' THEN 1 ELSE load_extension(1) END**
  
+ <img src=img/6.png class="center">
  <img src=img/20.png class="center">
 
---> username : admin 
---> password : This_password_is_very_safe!
+**--> username : admin**
+**--> password : This_password_is_very_safe!**
 
 We discovered that there is an admin page (admin.php) that require a username and a password.So paasing those creds to the form we got to the page :
 
  <img src=img/9.png class="center">
 
-This time one input that gets an url was present and after reading the source code of the admin.php (using the second input field in the index.php) we decided to look for an SSRF: 
+There was just one input that accepts a url. Reading the source code of the admin.php (using the second input field in the index.php) a **curl** caught our attention, so maybe there is an SSRF here!  
 
 ```
 function str_contains($haystack, $needle) {
@@ -78,7 +79,7 @@ function str_contains($haystack, $needle) {
 **What is SSRF?**
 Server-Side Request Forgery (SSRF) refers to an attack wherein an attacker is able to send a crafted request from a vulnerable web application. SSRF is usually used to target internal systems behind firewalls that are normally inaccessible to an attacker from the external network.
 
-All protocols other than file:// was valid since a delay of 5s took place. Reading the source code of the 'admin.php' once again a comment cought our attention **Acordarse de Fixear el BD user juanperez** which means 'Remember to Fix the BD user juanperez'
+All protocols other than file:// was valid since a delay of 5s took place. Reading the source code of the 'admin.php' once again a comment cought our attention **'Acordarse de Fixear el BD user juanperez'** which means 'Remember to Fix the BD user juanperez'
 ehhhmmm ... So maybe there is another database running on internal!
 our hypothese was confirmed when we saw the line of code **{ exec('timeout 2 nc -z mysqlsafedb.com 3306 ; if [ $? -eq 0 ] ; then echo "Online"; else echo "Offline"; fi', $out);**. That means that the othe button was checking the whole time if this database is online or not. To communicate with this databse we decided to use the protocol **Gopher**.
 
