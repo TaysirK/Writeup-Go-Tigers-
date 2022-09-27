@@ -34,24 +34,6 @@ class TigerClass {
         return false;
         }
     }
-
-if (isset($_POST['tiger_id']) && isset($_POST['submit'])) {
-    $tiger = new TigerClass ();
-    $tigerAccounts = $tiger->superSafeWAF($_POST['tiger_id']);
-
-}
-
-if (isset($_POST['name']) && isset($_POST['submit'])) {
-        //if(strpos($_POST['name'], "/") !== false){
-	//	die("You can't hackme hehe");
-	//}
-	$_POST['name'] = strtolower($_POST['name']);
-	echo file_get_contents($_POST['name']);
-	die();
-}
-
-
-?>
 ```
  <img src=img/2.png class="center">
 
@@ -74,7 +56,25 @@ We discovered that there is an admin page (admin.php) that require a username an
 
 This time one input that gets an url was present and after reading the source code of the admin.php (using the second input field in the index.php) we decided to look for an SSRF: 
 
-IMG
+```
+function str_contains($haystack, $needle) {
+					return $needle !== '' && mb_strpos($haystack, $needle) !== false;
+				}
+				$not_protocol_smuggling = !str_contains(strtolower($_POST['post_url']),"file");
+
+				if (isset($_SESSION['auth']) && isset($_POST['post_check']) && $not_protocol_smuggling) { exec(escapeshellcmd("timeout 5 curl " . escapeshellarg($_POST['post_url']) . " --output -"), $out); echo "<pre>"; print_r($out); echo "</pre>"; } ?>
+			</div>
+			<br>
+			<!--Acordarse de Fixear el BD user juanperez  -->
+		<h4>DB Status Check</h4>
+			<div id="login">
+				<form class="form-signin" action="<?php basename($_SERVER['PHP_SELF']); ?>" method="post" style="border:0px;">
+				<input class="btn  btn-primary" type="submit" name='db_check' value = "Check" style='margin-top:10px;'/>
+				</form>
+				<?php if (isset($_SESSION['auth']) && isset($_POST['db_check'])) { exec('timeout 2 nc -z mysqlsafedb.com 3306 ; if [ $? -eq 0 ] ; then echo "Online"; else echo "Offline"; fi', $out); echo "<pre>"; print_r($out); echo "</pre>"; } ?>
+			</div>
+```
+
 
 **What is SSRF?**
 Server-Side Request Forgery (SSRF) refers to an attack wherein an attacker is able to send a crafted request from a vulnerable web application. SSRF is usually used to target internal systems behind firewalls that are normally inaccessible to an attacker from the external network.
