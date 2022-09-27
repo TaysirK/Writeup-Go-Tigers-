@@ -98,8 +98,9 @@ And the flag was the name of a database other than 'information_schema.schemata'
  <img src=img/16.png class="center">
 
 
+**FLAG**
 
-
+ <img src=img/17.png class="center">
 
  ## Some Ressources:
 
