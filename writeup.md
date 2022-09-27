@@ -4,14 +4,14 @@
 ## Go tigers!
  <img src=img/19.png class="center">
 
-When visiting the website, we were face to two inut fields. The first one require an id and fetch in the database.If the id is valid it displays the id and the username.if not it displays nothing.The second field was an input that displays the content of a file using the function file_gets_content().
+When visiting the website, we can see two input fields. The first one require an id.If the id is valid it displays the id and the username else it displays nothing.The second field was an input that read the content of a file using the function file_gets_content().
 
  <img src=img/1.png class="center">
 
 We tried to trigger an error using a quote and fortuantely we got an error from the database.The error reveals that a function called supersafeWaf() was filtering our input.
-IMG 
+<img src=img/2.png class="center">
 
-(I discovered later that this was useless since my team managed to read the admin password from ../tiger.db using the second input , but hey i enjoyed tortuaring myself to manually perform a blind boolean based sql injection and that was fun!)
+(I discovered later that this was useless since my friend LAM managed to read the admin password from ../tiger.db using the second input , but hey i enjoyed tortuaring myself to manually perform a blind boolean based sql injection and that was fun!)
 
  <img src=img/18.png class="center">
 
