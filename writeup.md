@@ -4,7 +4,7 @@
 ## Go tigers!
  <img src=img/19.png class="center">
 
-When visiting the website, we can see two input fields. The first one require an id.If the id is valid it displays the id and the username else it displays nothing.The second field was an input that read the content of a file using the function file_gets_content().
+When visiting the website, we can see two input fields. The first one require an id.If the id is valid it displays the id and the username else it displays nothing.The second field was an input that read the content of a file using the function file_get_contents().
 
  <img src=img/1.png class="center">
 
