@@ -15,7 +15,7 @@ We tried to trigger an error using a quote and fortuantely we got an error from 
 
  <img src=img/18.png class="center">
 
-Looking at the code of "index.php", we find out that ther uspersafeWaf() function actually filters some statements like 'select' , 'order' .. 
+Looking at the code of "index.php", we find out that ther suspersafeWaf() function actually filters some statements like 'select' , 'order' .. 
 ```
 <?php
 ini_set('display_errors', 'on');
@@ -35,7 +35,6 @@ class TigerClass {
         }
     }
 ```
- <img src=img/2.png class="center">
 
 We tried out some SQLi payloads to see that this was a blind boolean based sql injection , with an sqlite3 database.
 Our payload was **1 AND CASE WHEN substr(user,1,1)='a' THEN 1 ELSE load_extension(1) END**
