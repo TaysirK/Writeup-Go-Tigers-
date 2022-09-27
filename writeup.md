@@ -11,7 +11,7 @@ When visiting the website, we can see two input fields. The first one require an
 We tried to trigger an error using a quote and fortuantely we got an error from the database.The error reveals that a function called supersafeWaf() was filtering our input.
 <img src=img/2.png class="center">
 
-(I discovered later that this was useless since my friend LAM managed to read the admin password from ../tiger.db using the second input , but hey i enjoyed torturing myself and manually perform a blind boolean based sql injection. that was fun!)
+(I discovered later that this was useless since my teammate LAM managed to read the admin password from ../tiger.db using the second input , but hey i enjoyed torturing myself and manually perform a blind boolean based sql injection. that was fun!)
 
  <img src=img/18.png class="center">
 
